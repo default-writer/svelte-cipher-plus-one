@@ -1,7 +1,7 @@
 <script>
   //import ImportButton from "./ImportButton.svelte";
 
-  import ui from "./ui";
+  import ui from "./js/ui";
 
   ui();
 </script>

@@ -1,4 +1,7 @@
 <script>
+  import Chart from "chart.js";
+  import { onMount } from "svelte";
+
   import TextArea from "./TextArea.svelte";
   import Sha1 from "./Sha1.svelte";
   import Button from "./Button.svelte";
@@ -6,18 +9,7 @@
   import ImportButton from "./ImportButton.svelte";
   import NumberButton from "./NumberButton.svelte";
 
-  import {
-    sha1,
-    random,
-    alphabet,
-    plaintext,
-    set_plaintext,
-    random_key,
-    encrypt_cipher,
-    decrypt_cipher,
-    default_key,
-    set_alphabet
-  } from "./js/cipher";
+  import { sha1, random, alphabet, plaintext, set_plaintext, random_key, encrypt_cipher, decrypt_cipher, default_key, set_alphabet } from "./js/cipher";
   import { click, saveAs } from "./js/io";
   import { default_alphabet } from "./js/alphabet";
   import { default_plaintext } from "./js/common";
@@ -57,12 +49,8 @@
         const json = JSON.parse(content);
         plaintext2_value = json.cipher;
         sha_plaintext2_value = json.sha;
-        alphabet2_value = json.key
-          ? [...json.key].join("")
-          : [...default_alphabet].join("");
-        sha_alphabet2_value = json.key
-          ? sha1([...json.key])
-          : sha1([...default_alphabet]);
+        alphabet2_value = json.key ? [...json.key].join("") : [...default_alphabet].join("");
+        sha_alphabet2_value = json.key ? sha1([...json.key]) : sha1([...default_alphabet]);
         shift2_value = json.shift ? parseInt(json.shift, 10) : 1;
         IV2_value = json.iv ? parseInt(json.iv, 10) : 1;
         decrypt_();
@@ -117,14 +105,7 @@
   }
 
   function encrypt_() {
-    output1_value = encrypt_cipher(
-      parseInt(IV1_value, 10),
-      Number(shift1_value),
-      [...alphabet1_value],
-      [...plaintext1_value],
-      sha_alphabet1_value,
-      sha_plaintext1_value
-    ).join("");
+    output1_value = encrypt_cipher(parseInt(IV1_value, 10), Number(shift1_value), [...alphabet1_value], [...plaintext1_value], sha_alphabet1_value, sha_plaintext1_value).join("");
     update_chart1(output1_value);
   }
 
@@ -141,9 +122,7 @@
 
   function alphabet_basic_() {
     default_();
-    set_alphabet(
-      "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890 .\n"
-    );
+    set_alphabet("QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm1234567890 .\n");
     set_plaintext("This is a text.");
     alphabet1_value = [...alphabet].join("");
     sha_alphabet1_value = sha1(alphabet);
@@ -165,14 +144,7 @@
   }
 
   function decrypt_() {
-    output2_value = decrypt_cipher(
-      parseInt(IV2_value, 10),
-      Number(shift2_value),
-      [...alphabet2_value],
-      [...plaintext2_value],
-      sha_alphabet2_value,
-      sha_plaintext2_value
-    ).join("");
+    output2_value = decrypt_cipher(parseInt(IV2_value, 10), Number(shift2_value), [...alphabet2_value], [...plaintext2_value], sha_alphabet2_value, sha_plaintext2_value).join("");
     update_chart2(output2_value);
   }
 
@@ -211,9 +183,6 @@
 
   let output1_value = "";
   let output2_value = "";
-
-  import { Chart } from "chart.js";
-  import { onMount } from "svelte";
 
   let canvas1;
   let canvas2;

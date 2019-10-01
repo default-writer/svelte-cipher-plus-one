@@ -2,7 +2,7 @@
 
 // The one and only way of getting global scope in all environments
 // https://stackoverflow.com/q/3277182/1008999
-var _global = typeof window === "object" && window.window === window ? window : typeof window.self === "object" && window.self.self === window.self ? window.self : typeof global === "object" && global.global === global ? global : this;
+var _global = typeof window === "object" && window.window === window ? window : typeof window.self === "object" && window.self.self === window.self ? window.self : typeof global === "object" && global.global === global ? global : window;
 function bom(blob, opts) {
   if (typeof opts === "undefined") opts = { autoBom: false };
   else if (typeof opts !== "object") {

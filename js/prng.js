@@ -1,5 +1,6 @@
 class prng {
   constructor(seed) {
+    if (typeof seed !== "number") seed = 1238473661;
     this._seed = seed % 2147483647;
     if (this._seed <= 0) {
       this._seed += 2147483646;

@@ -19,6 +19,10 @@ export function random() {
   return Math.floor(rnd.next(min, max));
 }
 
+export function prev_random() {
+  return Math.floor(rnd.prev(min, max));
+}
+
 export function sha1(array) {
   return hex_sha1(array.join(""));
 }
@@ -73,30 +77,35 @@ function shuffle_binb(alphabet, str) {
   shuffle(alphabet, array[3]);
 }
 
-function next_position(char) {
-  const j = random();
-  const position = alphabet.indexOf(char);
-  return (position + 1 + j) % size();
+const next_position = position => (position + 1 + random()) % size();
+const previous_position = position => size() - 1 - ((size() - position + random()) % size());
+
+var count = 0;
+
+function next_index(char) {
+  if (char === undefined || !alphabet.includes(char)) {
+    return default_alphabet.indexOf(char) + ++count;
+  }
+  return alphabet.indexOf(char);
 }
 
-function previous_position(char) {
-  const j = random();
-  const position = alphabet.indexOf(char);
-  return size() - 1 - ((size() - position + j) % size());
+function prev_index(char) {
+  if (char === undefined || !alphabet.includes(char)) {
+    return default_alphabet.indexOf(char) - --count;
+  }
+  return alphabet.indexOf(char);
 }
 
 function shift_encrypt(char) {
-  if (char === undefined || !alphabet.includes(char)) throw Error("undefined char '" + char + "'");
-  const position = alphabet.indexOf(char);
-  let newPosition = next_position(char);
-  while (newPosition === position) newPosition = next_position(char);
+  const position = next_index(char);
+  let newPosition = next_position(position);
+  while (newPosition === position) newPosition = next_position(newPosition);
   return alphabet[newPosition];
 }
 
 function shift_decrypt(char) {
-  if (char === undefined || !alphabet.includes(char)) throw Error("undefined char '" + char + "'");
-  const position = alphabet.indexOf(char);
-  let newPosition = previous_position(char);
-  while (newPosition === position) newPosition = previous_position(char);
+  const position = prev_index(char);
+  let newPosition = previous_position(position);
+  while (newPosition === position) newPosition = previous_position(newPosition);
   return alphabet[newPosition];
 }

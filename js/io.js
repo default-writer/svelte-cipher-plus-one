@@ -2,14 +2,7 @@
 
 // The one and only way of getting global scope in all environments
 // https://stackoverflow.com/q/3277182/1008999
-var _global =
-  typeof window === "object" && window.window === window
-    ? window
-    : typeof window.self === "object" && window.self.self === window.self
-    ? window.self
-    : typeof global === "object" && global.global === global
-    ? global
-    : this;
+var _global = typeof window === "object" && window.window === window ? window : typeof window.self === "object" && window.self.self === window.self ? window.self : typeof global === "object" && global.global === global ? global : this;
 function bom(blob, opts) {
   if (typeof opts === "undefined") opts = { autoBom: false };
   else if (typeof opts !== "object") {
@@ -18,12 +11,7 @@ function bom(blob, opts) {
   }
   // prepend BOM for UTF-8 XML and text/* types (including HTML)
   // note: your browser will automatically convert UTF-16 U+FEFF to EF BB BF
-  if (
-    opts.autoBom &&
-    /^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(
-      blob.type
-    )
-  ) {
+  if (opts.autoBom && /^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(blob.type)) {
     return new Blob([String.fromCharCode(0xfeff), blob], { type: blob.type });
   }
   return blob;
@@ -56,23 +44,7 @@ export function click(node) {
     node.dispatchEvent(new MouseEvent("click"));
   } catch (e) {
     var evt = document.createEvent("MouseEvents");
-    evt.initMouseEvent(
-      "click",
-      true,
-      true,
-      window,
-      0,
-      0,
-      0,
-      80,
-      20,
-      false,
-      false,
-      false,
-      false,
-      0,
-      null
-    );
+    evt.initMouseEvent("click", true, true, window, 0, 0, 0, 80, 20, false, false, false, false, 0, null);
     node.dispatchEvent(evt);
   }
 }
@@ -98,9 +70,7 @@ export var saveAs =
           // Support regular links
           a.href = blob;
           if (a.origin !== window.location.origin) {
-            corsEnabled(a.href)
-              ? download(blob, name, opts)
-              : click(a, (a.target = "_blank"));
+            corsEnabled(a.href) ? download(blob, name, opts) : click(a, (a.target = "_blank"));
           } else {
             click(a);
           }
@@ -140,25 +110,18 @@ export var saveAs =
         // Mostly only available on user interaction and the fileReader is async so...
         popup = popup || window.open("", "_blank");
         if (popup) {
-          popup.document.title = popup.document.body.innerText =
-            "downloading...";
+          popup.document.title = popup.document.body.innerText = "downloading...";
         }
         if (typeof blob === "string") return download(blob, name, opts);
         var force = blob.type === "application/octet-stream";
-        var isSafari =
-          /constructor/i.test(_global.HTMLElement) || _global.safari;
+        var isSafari = /constructor/i.test(_global.HTMLElement) || _global.safari;
         var isChromeIOS = /CriOS\/[\d]+/.test(navigator.userAgent);
-        if (
-          (isChromeIOS || (force && isSafari)) &&
-          typeof FileReader !== "undefined"
-        ) {
+        if ((isChromeIOS || (force && isSafari)) && typeof FileReader !== "undefined") {
           // Safari doesn't allow downloading of blob URLs
           var reader = new FileReader();
           reader.onloadend = function() {
             var url = reader.result;
-            url = isChromeIOS
-              ? url
-              : url.replace(/^data:[^;]*;/, "data:attachment/file;");
+            url = isChromeIOS ? url : url.replace(/^data:[^;]*;/, "data:attachment/file;");
             if (popup) popup.location.href = url;
             else window.location = url;
             popup = null; // reverse-tabnabbing #460

@@ -48,10 +48,7 @@ export function str_hmac_sha1(key, data) {
  * Perform a simple self-test to see if the VM is working
  */
 export function validate_hex_sha1() {
-  return (
-    binb2hex(hex2binb(hex_sha1("abc"))) ===
-    "a9993e364706816aba3e25717850c26c9cd0d89d"
-  );
+  return binb2hex(hex2binb(hex_sha1("abc"))) === "a9993e364706816aba3e25717850c26c9cd0d89d";
 }
 
 /*
@@ -79,10 +76,7 @@ export function core_sha1(x, len) {
     for (var j = 0; j < 80; j++) {
       if (j < 16) w[j] = x[i + j];
       else w[j] = rol(w[j - 3] ^ w[j - 8] ^ w[j - 14] ^ w[j - 16], 1);
-      var t = safe_add(
-        safe_add(rol(a, 5), sha1_ft(j, b, c, d)),
-        safe_add(safe_add(e, w[j]), sha1_kt(j))
-      );
+      var t = safe_add(safe_add(rol(a, 5), sha1_ft(j, b, c, d)), safe_add(safe_add(e, w[j]), sha1_kt(j)));
       e = d;
       d = c;
       c = rol(b, 30);
@@ -114,13 +108,7 @@ function sha1_ft(t, b, c, d) {
  * Determine the appropriate additive constant for the current iteration
  */
 function sha1_kt(t) {
-  return t < 20
-    ? 1518500249
-    : t < 40
-    ? 1859775393
-    : t < 60
-    ? -1894007588
-    : -899497514;
+  return t < 20 ? 1518500249 : t < 40 ? 1859775393 : t < 60 ? -1894007588 : -899497514;
 }
 
 /*
@@ -165,9 +153,7 @@ function rol(num, cnt) {
 export function str2binb(str) {
   var bin = [];
   var mask = (1 << chrsz) - 1;
-  for (var i = 0; i < str.length * chrsz; i += chrsz)
-    bin[i >> 5] |=
-      (str.charCodeAt(i / chrsz) & mask) << (32 - chrsz - (i % 32));
+  for (var i = 0; i < str.length * chrsz; i += chrsz) bin[i >> 5] |= (str.charCodeAt(i / chrsz) & mask) << (32 - chrsz - (i % 32));
   return bin;
 }
 
@@ -189,10 +175,7 @@ export function hex2binb(str) {
 export function binb2str(bin) {
   var str = "";
   var mask = (1 << chrsz) - 1;
-  for (var i = 0; i < bin.length * 32; i += chrsz)
-    str += String.fromCharCode(
-      (bin[i >> 5] >>> (32 - chrsz - (i % 32))) & mask
-    );
+  for (var i = 0; i < bin.length * 32; i += chrsz) str += String.fromCharCode((bin[i >> 5] >>> (32 - chrsz - (i % 32))) & mask);
   return str;
 }
 
@@ -203,9 +186,7 @@ export function binb2hex(binarray) {
   var hex_tab = hexcase ? "0123456789ABCDEF" : "0123456789abcdef";
   var str = "";
   for (var i = 0; i < binarray.length * 4; i++) {
-    str +=
-      hex_tab.charAt((binarray[i >> 2] >> ((3 - (i % 4)) * 8 + 4)) & 0xf) +
-      hex_tab.charAt((binarray[i >> 2] >> ((3 - (i % 4)) * 8)) & 0xf);
+    str += hex_tab.charAt((binarray[i >> 2] >> ((3 - (i % 4)) * 8 + 4)) & 0xf) + hex_tab.charAt((binarray[i >> 2] >> ((3 - (i % 4)) * 8)) & 0xf);
   }
   return str;
 }
@@ -217,10 +198,7 @@ export function binb2b64(binarray) {
   var tab = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
   var str = "";
   for (var i = 0; i < binarray.length * 4; i += 3) {
-    var triplet =
-      (((binarray[i >> 2] >> (8 * (3 - (i % 4)))) & 0xff) << 16) |
-      (((binarray[(i + 1) >> 2] >> (8 * (3 - ((i + 1) % 4)))) & 0xff) << 8) |
-      ((binarray[(i + 2) >> 2] >> (8 * (3 - ((i + 2) % 4)))) & 0xff);
+    var triplet = (((binarray[i >> 2] >> (8 * (3 - (i % 4)))) & 0xff) << 16) | (((binarray[(i + 1) >> 2] >> (8 * (3 - ((i + 1) % 4)))) & 0xff) << 8) | ((binarray[(i + 2) >> 2] >> (8 * (3 - ((i + 2) % 4)))) & 0xff);
     for (var j = 0; j < 4; j++) {
       if (i * 8 + j * 6 > binarray.length * 32) str += b64pad;
       else str += tab.charAt((triplet >> (6 * (3 - j))) & 0x3f);

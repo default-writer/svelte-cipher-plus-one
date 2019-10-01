@@ -1,7 +1,4 @@
-export const default_alphabet = [
-  ..."~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:\"ZXCVBNM<>?`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./ ",
-  "\n"
-];
+export const default_alphabet = [..."~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:\"ZXCVBNM<>?`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./ ", "\n"];
 
 function sort(array) {
   return array.sort(function(a, b) {

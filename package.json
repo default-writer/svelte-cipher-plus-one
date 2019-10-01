@@ -12,8 +12,6 @@
   },
   "dependencies": {
     "chart.js": "2.8.0",
-    "rollup-plugin-node-resolve": "5.2.0",
-    "rollup-plugin-svelte": "5.1.0",
     "svelte": "3.12.1"
   },
   "scripts": {

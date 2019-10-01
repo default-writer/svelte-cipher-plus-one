@@ -1,21 +1,26 @@
 <script>
-	import { click, saveAs } from "./io";
+		import { createEventDispatcher } from "svelte";
+		import { click, saveAs } from "./js/io";
 
-	function handleChange() {
-	  if (files.length === 1) {
-	    load_(upload_json.files[0]);
-	  }
-	}
+		export let id = "";
+		export let value = "";
 
-	function loadContent() {
-	  click(upload_json);
-	}
+		const dispatch = createEventDispatcher();
+		function handleChange() {
+		  if (upload_json.files.length === 1) {
+		    dispatch("file", { file: upload_json.files[0] });
+		    upload_json.value = "";
+		  }
+		}
+
+		let upload_json;
+
+		function loadContent() {
+		  click(upload_json);
+		}
 </script>
 
-<style>
-</style>
-
-<!-- <div hidden>
-	<input id="upload_json" type="file" on:change={handleChange} accept=".json" multiple />
+<div hidden>
+	<input id="upload_json" bind:this={upload_json} type="file" on:change={handleChange} accept=".json" multiple />
 </div>
-<input type="button" id="import_json" value="import" on:click={loadContent}/> -->
+<input {id} type="button" {value} on:click={loadContent}/>

@@ -239,6 +239,13 @@
 <style>
   @import url("https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap");
 
+  :global(html) {
+    visibility: hidden;
+  }
+  :global(html[class='wf-robotomono-n4-active wf-active']) {
+    visibility: visible;
+  }
+
   :global(*) {
     font-family: "Roboto Mono", sans-serif;
     font-size: 10px;

@@ -1,16 +1,46 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
-	<meta charset='utf8'>
-	<meta name='viewport' content='width=device-width'>
+  <head>
+    <meta charset="utf8" />
+    <meta name="viewport" content="width=device-width" />
 
-	<title>Svelte app</title>
+    <title>Svelte app</title>
 
-	<link rel='stylesheet' href='bundle.css'>
-</head>
+    <link rel="stylesheet" href="bundle.css" />
+  </head>
 
-<body>
-  <div id="root"></div>
-	<script src='bundle.js'></script>
-</body>
+  <body>
+	<div id="root"></div>
+	<!-- Does no work at all browsers -->
+    <!-- <script src='bundle.js'></script> -->
+    <script>
+      //https://stackoverflow.com/questions/9899372/pure-javascript-equivalent-of-jquerys-ready-how-to-call-a-function-when-t/9899701#9899701
+      // self executing function here
+      (function() {
+        // your page initialization code here
+        // the DOM will be available here
+        function docReady(fn) {
+          // see if DOM is already available
+          if (document.readyState === "complete" || document.readyState === "interactive") {
+            // call on next available tick
+            setTimeout(fn, 1);
+          } else {
+            document.addEventListener("DOMContentLoaded", fn);
+          }
+		}
+		//https://unixpapa.com/js/dyna.html
+        docReady(function() {
+          // DOM is loaded and ready for manipulation here
+          function helper() {
+            var head = document.getElementsByTagName("head")[0];
+            var script = document.createElement("script");
+            script.type = "text/javascript";
+            script.src = "bundle.js";
+            head.appendChild(script);
+          }
+          helper();
+        });
+      })();
+    </script>
+  </body>
 </html>

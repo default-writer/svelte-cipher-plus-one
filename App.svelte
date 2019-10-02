@@ -252,6 +252,18 @@
       opacity: 1;
     }
   }
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    5% {
+      opacity: 0.95;
+    }
+    100% {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
 
   :global(html[class="wf-robotomono-n4-active wf-active"]) {
     animation: 0.25s fadeIn;

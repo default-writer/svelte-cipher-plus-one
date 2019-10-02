@@ -71,8 +71,8 @@
 
     alphabet1_value = alphabet.join("");
     plaintext1_value = plaintext.join("");
-    sha_alphabet1_value = sha1(alphabet);
-    sha_plaintext1_value = sha1(plaintext);
+    sha_alphabet1_value = sha1([...alphabet1_value]);
+    sha_plaintext1_value = sha1([...plaintext1_value]);
     IV1_value = 1;
     shift1_value = 1;
   }
@@ -116,7 +116,12 @@
   }
 
   function alphabet1_input() {
+    set_alphabet(alphabet1_value);
     sha_alphabet1_value = sha1(alphabet);
+    encrypt_();
+  }
+
+  function sha_alphabet1_input() {
     encrypt_();
   }
 
@@ -189,6 +194,11 @@
   let chart1;
   let chart2;
 
+  function alphabet_default_() {
+    default_();
+    encrypt_();
+  }
+
   onMount(() => {
     const ctx1 = canvas1.getContext("2d");
     chart1 = new Chart(ctx1, {
@@ -224,11 +234,6 @@
     });
     alphabet_default_();
   });
-
-  function alphabet_default_() {
-    default_();
-    encrypt_();
-  }
 </script>
 
 <style>
@@ -396,7 +401,7 @@
     </tr>
     <tr>
       <td>
-        <Sha1 id="sha_plaintext1" label="sha1" value={sha_plaintext1_value} />
+        <Sha1 id="sha_plaintext1" label="sha1" value={sha_plaintext1_value} readonly="true" />
       </td>
       <td>
         <Sha1 id="sha_plaintext2" label="sha1" value={sha_plaintext2_value} />
@@ -412,10 +417,10 @@
     </tr>
     <tr>
       <td>
-        <Sha1 label="sha1:" id="sha_alphabet1" value={sha_alphabet1_value} />
+        <Sha1 id="sha_alphabet1" label="sha1:" bind:value={sha_alphabet1_value} on:input={sha_alphabet1_input}/>
       </td>
       <td>
-        <Sha1 label="sha1:" id="sha_alphabet2" value={sha_alphabet2_value} />
+        <Sha1 id="sha_alphabet2" label="sha1:" value={sha_alphabet2_value} />
       </td>
     </tr>
     <tr>

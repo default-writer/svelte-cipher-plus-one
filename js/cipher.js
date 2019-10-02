@@ -24,15 +24,23 @@ export function prev_random() {
 }
 
 export function sha1(array) {
-  return hex_sha1(array.join(""));
+  return hex_sha1([...array].join(""));
 }
 
 export function decrypt_cipher(...chars) {
-  return cipher_function(shift_decrypt)(...chars);
+  try {
+    return cipher_function(shift_decrypt)(...chars);
+  } catch {
+    return [""];
+  }
 }
 
 export function encrypt_cipher(...chars) {
-  return cipher_function(shift_encrypt)(...chars);
+  try {
+    return cipher_function(shift_encrypt)(...chars);
+  } catch {
+    return [""];
+  }
 }
 
 export function random_key() {
@@ -80,18 +88,16 @@ function shuffle_binb(alphabet, str) {
 const next_position = position => (position + 1 + random()) % size();
 const previous_position = position => size() - 1 - ((size() - position + random()) % size());
 
-var count = 0;
-
 function next_index(char) {
   if (char === undefined || !alphabet.includes(char)) {
-    return default_alphabet.indexOf(char) + ++count;
+    throw new Error("undefined char '" + char + "'");
   }
   return alphabet.indexOf(char);
 }
 
 function prev_index(char) {
   if (char === undefined || !alphabet.includes(char)) {
-    return default_alphabet.indexOf(char) - --count;
+    throw new Error("undefined char '" + char + "'");
   }
   return alphabet.indexOf(char);
 }

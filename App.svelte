@@ -237,13 +237,25 @@
 </script>
 
 <style>
-  @import url("https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap");
+  @import url("https://fonts.googleapis.com/css?family=Roboto+Mono");
 
   :global(html) {
     visibility: hidden;
   }
-  :global(html[class='wf-robotomono-n4-active wf-active']) {
-    visibility: visible;
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  :global(html[class="wf-robotomono-n4-active wf-active"]) {
+    animation: 0.25s fadeIn;
+    animation-fill-mode: forwards;
   }
 
   :global(*) {

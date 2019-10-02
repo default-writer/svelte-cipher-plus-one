@@ -247,15 +247,6 @@
     0% {
       opacity: 0;
     }
-    100% {
-      visibility: visible;
-      opacity: 1;
-    }
-  }
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
     5% {
       opacity: 0.95;
     }

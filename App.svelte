@@ -255,6 +255,7 @@
 
   :global(html[class="wf-robotomono-n4-active wf-active"]) {
     animation: 0.25s fadeIn;
+    animation-delay: 1s;
     animation-fill-mode: forwards;
   }
 

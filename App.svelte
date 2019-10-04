@@ -4,7 +4,7 @@
 
   import TextArea from "./TextArea.svelte";
   import Sha1 from "./Sha1.svelte";
-  import Button from "./Button.svelte";
+  import SimpleButton from "./SimpleButton.svelte";
   import SubmitButton from "./SubmitButton.svelte";
   import ImportButton from "./ImportButton.svelte";
   import NumberButton from "./NumberButton.svelte";
@@ -237,11 +237,8 @@
 </script>
 
 <style>
+  /* @import url("https://unpkg.com/chota@latest"); */
   @import url("https://fonts.googleapis.com/css?family=Roboto+Mono");
-
-  :global(html) {
-    visibility: hidden;
-  }
 
   @keyframes fadeIn {
     0% {
@@ -254,6 +251,10 @@
       visibility: visible;
       opacity: 1;
     }
+  }
+
+  :global(html) {
+    visibility: hidden;
   }
 
   :global(html[class="wf-robotomono-n4-active wf-active"]) {
@@ -412,90 +413,96 @@
 </style>
 
 <main>
-  <h1>Caesar Cipher +1</h1>
-  <table>
-    <tr>
-      <td>
-        <TextArea id="plaintext1" label="plaintext:" bind:value={plaintext1_value} on:input={plaintext1_input} />
-      </td>
-      <td>
-        <TextArea id="plaintext2" label="cipher:" bind:value={plaintext2_value}  />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <Sha1 id="sha_plaintext1" label="sha1" value={sha_plaintext1_value} readonly="true" />
-      </td>
-      <td>
-        <Sha1 id="sha_plaintext2" label="sha1" value={sha_plaintext2_value} />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <TextArea id="alphabet1" bind:value={alphabet1_value} on:input={alphabet1_input}/>
-      </td>
-      <td>
-        <TextArea id="alphabet2" bind:value={alphabet2_value}/>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <Sha1 id="sha_alphabet1" label="sha1:" bind:value={sha_alphabet1_value} on:input={sha_alphabet1_input}/>
-      </td>
-      <td>
-        <Sha1 id="sha_alphabet2" label="sha1:" value={sha_alphabet2_value} />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <SubmitButton id="export_json" value="export" on:click={export_json} />
-        <SubmitButton id="export_public_json" value="export public" on:click={export_public_json} />
-      </td>
-      <td>
-        <ImportButton id="import_json" value="import" on:file={loadContent}/>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <Button id="alphabet_default" value="default" on:click={alphabet_default_}/>
-        <Button id="alphabet_basic" value="basic" on:click={alphabet_basic_} />
-        <Button id="alphabet_random" value="random" on:click={alphabet_random_} />
-        <Button id="randomize" value="iv" on:click={IV1_random_} />
-        <Button id="encrypt" value="enc" on:click={encrypt_}/>
-        <Button id="app1" value="=>" on:click={prepare2_} />
-      </td>
-      <td>
-        <Button id="app2" value="<=" on:click={prepare1_} />
-        <Button id="decrypt" value="dec" on:click={decrypt_} />
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <NumberButton id="shift1" name="shift" bind:value={shift1_value} on:input={encrypt_} />
-        <NumberButton id="IV1" bind:value={IV1_value} on:input={encrypt_}/>
-      </td>
-      <td>
-        <NumberButton id="shift2" name="shift" bind:value={shift2_value} on:input={decrypt_} />
-        <NumberButton id="IV2" bind:value={IV2_value} on:input={decrypt_}/>
-      </td>
-    </tr>
-  </table>
-  <table>
-    <tr>
-      <td>
-        <TextArea id="output1" value={output1_value}/>
-      </td>
-      <td>
-        <TextArea id="output2" value={output2_value}/>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <canvas id="myChart1" bind:this={canvas1}/>
-      </td>
-      <td>
-        <canvas id="myChart2" bind:this={canvas2}/>
-      </td>
-    </tr>
-  </table>
+  <div class="bg-black">
+    <div>
+      <div>
+        <h1>Caesar Cipher +1</h1>
+        <table>
+          <tr>
+            <td class="col-4">
+              <TextArea id="plaintext1" label="plaintext:" bind:value={plaintext1_value} on:input={plaintext1_input} />
+            </td>
+            <td>
+              <TextArea id="plaintext2" label="cipher:" bind:value={plaintext2_value}  />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <Sha1 id="sha_plaintext1" label="sha1" value={sha_plaintext1_value} readonly="true" />
+            </td>
+            <td>
+              <Sha1 id="sha_plaintext2" label="sha1" value={sha_plaintext2_value} />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <TextArea id="alphabet1" bind:value={alphabet1_value} on:input={alphabet1_input}/>
+            </td>
+            <td>
+              <TextArea id="alphabet2" bind:value={alphabet2_value}/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <Sha1 id="sha_alphabet1" label="sha1:" bind:value={sha_alphabet1_value} on:input={sha_alphabet1_input}/>
+            </td>
+            <td>
+              <Sha1 id="sha_alphabet2" label="sha1:" value={sha_alphabet2_value} />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <SubmitButton id="export_json" value="export" on:click={export_json} />
+              <SubmitButton id="export_public_json" value="export public" on:click={export_public_json} />
+            </td>
+            <td>
+              <ImportButton id="import_json" value="import" on:file={loadContent}/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <SimpleButton id="alphabet_default" value="default" on:click={alphabet_default_}/>
+              <SimpleButton id="alphabet_basic" value="basic" on:click={alphabet_basic_} />
+              <SimpleButton id="alphabet_random" value="random" on:click={alphabet_random_} />
+              <SimpleButton id="randomize" value="iv" on:click={IV1_random_} />
+              <SimpleButton id="encrypt" value="enc" on:click={encrypt_}/>
+              <SimpleButton id="app1" value="=>" on:click={prepare2_} />
+            </td>
+            <td>
+              <SimpleButton id="app2" value="<=" on:click={prepare1_} />
+              <SimpleButton id="decrypt" value="dec" on:click={decrypt_} />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <NumberButton id="shift1" name="shift" bind:value={shift1_value} on:input={encrypt_} />
+              <NumberButton id="IV1" bind:value={IV1_value} on:input={encrypt_}/>
+            </td>
+            <td>
+              <NumberButton id="shift2" name="shift" bind:value={shift2_value} on:input={decrypt_} />
+              <NumberButton id="IV2" bind:value={IV2_value} on:input={decrypt_}/>
+            </td>
+          </tr>
+        </table>
+        <table>
+          <tr>
+            <td>
+              <TextArea id="output1" value={output1_value}/>
+            </td>
+            <td>
+              <TextArea id="output2" value={output2_value}/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <canvas id="myChart1" bind:this={canvas1}/>
+            </td>
+            <td>
+              <canvas id="myChart2" bind:this={canvas2}/>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
 </main>

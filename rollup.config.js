@@ -1,7 +1,9 @@
 // this file will not afect the sandbox but will
 // afect the deployment and dowload
 
+import postcss from "rollup-plugin-postcss";
 import svelte from "rollup-plugin-svelte";
+import livereload from "rollup-plugin-livereload";
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import { terser } from "rollup-plugin-terser";
@@ -17,11 +19,14 @@ export default {
     file: "public/bundle.js"
   },
   plugins: [
+    postcss({
+      extract: true,
+      minimize: production,
+      sourceMap: !production
+    }),
     svelte({
       // enable run-time checks when not in production
       dev: !production,
-      // we'll extract any component CSS out into
-      // a separate file — better for performance
       css: css => {
         css.write("public/bundle.css");
       }
@@ -32,8 +37,9 @@ export default {
     // some cases you'll need additional configuration —
     // consult the documentation for details:
     // https://github.com/rollup/rollup-plugin-commonjs
-    resolve(),
+    resolve({ browser: true }),
     commonjs(),
+    !production && livereload("public"),
 
     // If we're building for production (npm run build
     // instead of npm run dev), minify

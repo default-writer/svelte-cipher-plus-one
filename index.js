@@ -1,9 +1,10 @@
 import App from "./App.svelte";
 import WebFont from "webfontloader";
+import "./main.css";
 
 WebFont.load({
   google: {
-    families: ['Roboto Mono']
+    families: ["Roboto Mono"]
   }
 });
 
